@@ -1,4 +1,4 @@
-package Manager;
+package manager;
 
 import domain.Book;
 import domain.Product;
@@ -7,7 +7,6 @@ import repository.ProductRepository;
 
 public class ProductManager {
     private ProductRepository repository;
-
 
 
     public ProductManager(ProductRepository repository) {
@@ -19,9 +18,14 @@ public class ProductManager {
     }
 
 
+    public Product[] getAll() {
+        return repository.findAll();
+    }
+
+
     public Product[] searchBy(String text) {
         Product[] result = new Product[0];
-        for (Product product: repository.findAll()) {
+        for (Product product : repository.findAll()) {
             if (matches(product, text)) {
                 int length = result.length + 1;
                 Product[] tmp = new Product[length];
@@ -38,19 +42,19 @@ public class ProductManager {
     public boolean matches(Product product, String search) {
         if (product instanceof Book) {
             Book book = (Book) product;
-            if (book.getName().equalsIgnoreCase(search)) {
+            if (book.getName().contains(search)) {
                 return true;
             }
-            if (book.getAuthor().equalsIgnoreCase(search)) {
+            if (book.getAuthor().contains(search)) {
                 return true;
             }
         }
         if (product instanceof Smartphone) {
             Smartphone smartphone = (Smartphone) product;
-            if (smartphone.getName().equalsIgnoreCase(search)) {
+            if (smartphone.getName().contains(search)) {
                 return true;
             }
-            if (smartphone.getProducer().equalsIgnoreCase(search)) {
+            if (smartphone.getProducer().contains(search)) {
                 return true;
             }
         }
